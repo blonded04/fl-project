@@ -1,0 +1,71 @@
+%YAML 1.2
+
+file_extensions:
+  - txt
+scope: source.ebnf
+contexts:
+  main:
+    # Comments begin with a '#' and finish at the end of the line
+    - match: '\#'
+      scope: punctuation.definition.comment
+      push: line_comment
+
+     # Keywords and constants
+    - match: 'EPS|START'
+      scope: keyword.control
+
+    # Terminals begin and end with quotes, and use backslashes as an escape
+    - match: '"'
+      scope: punctuation.definition.string.begin
+      push: quoted_string
+
+    # Not-terminals
+    - match: '\b[a-zA-Z][a-zA-Z0-9]*\b'
+      scope: variable.parameter
+
+    # Operators
+    - match: '[\|\+\=\;]'
+      scope: keyword.operator.arithmetic
+
+    - match: \(
+      push: stray_brackets
+    - match: \)
+      scope: invalid.illegal.stray-bracket-end
+
+    - match: \[
+      push: square_brackets
+    - match: \]
+      scope: invalid.illegal.square-bracket-end
+
+    - match: \{
+      push: figure_brackets
+    - match: \}
+      scope: invalid.illegal.figure-bracket-end
+
+  line_comment:
+    - meta_scope: comment.line
+    - match: $
+      pop: true
+
+  quoted_string:
+    - meta_scope: string.quoted
+    - match: '\\.'
+      scope: constant.character.escape
+    - match: '"'
+      scope: punctuation.definition.string.end
+      pop: true
+
+  stray_brackets:
+    - match: \)
+      pop: true
+    - include: main
+
+  square_brackets:
+    - match: \]
+      pop: true
+    - include: main
+
+  figure_brackets:
+    - match: \}
+      pop: true
+    - include: main
