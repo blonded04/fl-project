@@ -1,0 +1,36 @@
+EBNF Grammar: Syntactic analysis completed
+List of symbol characters: {'o', 'd', 'Phew ', 'c', "I took the Wock' to Poland", 'b', " (Wock')", "# dat's not comment", "\\ dat's backslashes \\ \\\\", 'ab', 'us', 'I been leaning', '" dats not the end of terminal"', 'a'}
+List of non-terminal characters: {'__NT19', '__NT20', '__NT16', '__NT3', '__NT0', 'B', '__NT11', '__NT15', 'StrangeSymbols', 'LilYachty', 'Poland', 'A', '__NT4', '__NT17', '__NT18', '__NT14', '__NT6', '__NT5', '__NT7', 'Chorus', '__NT2', 'Verse', 'Eps', '__NT1', '__NT8', '__NT12', '__NT13', 'Brackets', 'NT3', '__NT9', '__NT10'}
+Start non-terminal character: LilYachty
+Rules:
+__NT19 = __NT18 + " (Wock')";
+__NT20 = EPS | __NT20 + __NT19;
+__NT16 = "I been leaning";
+__NT3 = EPS | __NT3 + __NT2;
+__NT0 = "a";
+B = "b";
+__NT11 = EPS | __NT10;
+__NT15 = EPS | __NT15 + __NT14;
+StrangeSymbols = "# dat's not comment" + "\ dat's backslashes \ \\" + "" dats not the end of terminal"";
+LilYachty = __NT11;
+Poland = Chorus + Verse + Chorus;
+A = "a";
+__NT4 = "a" | "us";
+__NT17 = EPS | __NT16;
+__NT18 = __NT15 | __NT17;
+__NT14 = "Phew ";
+__NT6 = "c" | "d";
+__NT5 = "a" | "b";
+__NT7 = EPS | __NT7 + __NT6;
+Chorus = __NT13;
+__NT2 = "o";
+Verse = __NT20;
+Eps = EPS;
+__NT1 = EPS | __NT0;
+__NT8 = __NT5 + __NT7;
+__NT12 = "I took the Wock' to Poland";
+__NT13 = EPS | __NT13 + __NT12;
+Brackets = __NT9;
+NT3 = __NT1 + "ab" + __NT3 + "b" + __NT4 + EPS;
+__NT9 = EPS | __NT8;
+__NT10 = Poland;

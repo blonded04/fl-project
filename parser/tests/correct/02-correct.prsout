@@ -1,0 +1,21 @@
+EBNF Grammar: Syntactic analysis completed
+List of symbol characters: {'o', 'd', 'c', 'b', "# dat's not comment", "\\ dat's backslashes \\ \\\\", 'ab', 'us', '" dats not the end of terminal"', 'a'}
+List of non-terminal characters: {'Eps', '__NT1', '__NT8', '__NT3', '__NT0', 'B', 'Brackets', 'StrangeSymbols', 'A', '__NT4', 'NT3', '__NT6', '__NT5', '__NT7', '__NT9', '__NT2'}
+Start non-terminal character: NT3
+Rules:
+Eps = EPS;
+__NT1 = EPS | __NT0;
+__NT8 = __NT5 + __NT7;
+__NT3 = EPS | __NT3 + __NT2;
+__NT0 = "a";
+B = "b";
+Brackets = __NT9;
+StrangeSymbols = "# dat's not comment" + "\ dat's backslashes \ \\" + "" dats not the end of terminal"";
+A = "a";
+__NT4 = "a" | "us";
+NT3 = __NT1 + "ab" + __NT3 + "b" + __NT4 + EPS;
+__NT6 = "c" | "d";
+__NT5 = "a" | "b";
+__NT7 = EPS | __NT7 + __NT6;
+__NT9 = EPS | __NT8;
+__NT2 = "o";

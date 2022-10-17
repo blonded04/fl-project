@@ -1,0 +1,5 @@
+START = LilYachty;
+LilYachty = [Poland];
+Poland = Chorus + Verse + Chorus;
+Chorus = {"I took the Wock' to Poland"};
+Verse = {({"Phew "} | ["I been leaning"]) + " (Wock')"};

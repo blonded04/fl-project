@@ -2,11 +2,12 @@
 
 file_extensions:
   - txt
+  - rslg
 scope: source.ebnf
 contexts:
   main:
     # Comments begin with a '#' and finish at the end of the line
-    - match: '\#'
+    - match: \#
       scope: punctuation.definition.comment
       push: line_comment
 
@@ -51,6 +52,10 @@ contexts:
     - meta_scope: string.quoted
     - match: '\\.'
       scope: constant.character.escape
+    - match: '\#'
+      scope: punctuation.definition.comment
+      push: line_comment
+      pop: true
     - match: '"'
       scope: punctuation.definition.string.end
       pop: true

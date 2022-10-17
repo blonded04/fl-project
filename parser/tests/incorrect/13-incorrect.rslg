@@ -1,0 +1,4 @@
+Brackets=[("a"|"b") + {"c" | "d"}];
+A="a"+"b";
+B="b";
+START = EPS;

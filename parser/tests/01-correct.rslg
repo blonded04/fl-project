@@ -1,2 +1,0 @@
-START = lang;
-lang = ["a"] + "ab" + {"o"} + "b" + ("a" | "us");

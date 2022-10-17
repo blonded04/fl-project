@@ -1,0 +1,7 @@
+
+NT3 = ["a"] + "ab" + {"o"} + "b" + ("a" | "us") + EPS;
+#comment-1
+
+A = "a"; #comment-2
+START = NT3; #comment-3
+B = "b";

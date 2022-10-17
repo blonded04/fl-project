@@ -6,7 +6,7 @@ tokens = [
     'START',
     'EPS',
     'EQ',
-    'NTERM',
+    'NON_TERMINAL',
     'SYMBOL',
     'PLUS',
     'ALT',
@@ -21,33 +21,44 @@ tokens = [
 ]
 
 
-def t_NTERM(t: lex.LexToken):
+def clean_terminal(token_val: lex.LexToken) -> lex.LexToken:
+    token_val = token_val.replace("\\\"", "\"")
+    token_val = token_val.replace("\\#", "#")
+    token_val = token_val.replace("\\\\", "\\")
+    return token_val
+
+
+def t_NON_TERMINAL(t: lex.LexToken) -> lex.LexToken:
     r'[A-Za-z][A-Za-z_0-9]*'
+
     match t.value:
         case "START":
             t.type = "START"
         case "EPS":
             t.type = "EPS"
         case _:
-            t.type = "NTERM"
+            t.type = "NON_TERMINAL"
     return t
 
 
-def t_SYMBOL(t: lex.LexToken):
-    r'\"(?:[^\\\"]|\\.)*\"'
-    t.value = t.value[1:-1]
-    match t.value:
-        case "START":
-            t.type = "START"
-        case "EPS":
-            t.type = "EPS"
-        case _:
-            t.type = "SYMBOL"
+def t_SYMBOL(t: lex.LexToken) -> lex.LexToken:
+    r'\"(?:[^\\\"\#]|\\.)*\"'
+
+    t.value = clean_terminal(t.value[1:-1])
+    t.type = "SYMBOL"
+    return t
+
+
+def t_COMMENT(t: lex.LexToken) -> lex.LexToken:
+    r'\#.*$'
+
+    t.value = t.value[1:]
     return t
 
 
 def t_newline(t: lex.LexToken):
     r'\n+'
+
     t.lexer.lineno += len(t.value)
 
 
@@ -65,7 +76,6 @@ t_LSB = '\['
 t_RSB = '\]'
 t_LFB = '\{'
 t_RFB = '\}'
-t_COMMENT = '^\#.*'
 t_END_OF_LINE = '\;'
 t_ignore = ' \t'
 
@@ -77,18 +87,18 @@ def main():
         print("Lexer must get at least 1 filename to work with")
 
     for filename_input in sys.argv[1:]:
-        with open(filename_input, "r") as filein, open(os.path.splitext(filename_input)[0] + ".out",
+        with open(filename_input, "r") as filein, open('.'.join(os.path.splitext(filename_input)[:-1]) + ".lexout",
                                                        "w") as file_output:
-            lexer_input_data = "".join(filein.readlines())
-            lexer.input(lexer_input_data)
 
-            print("CFG: performing lexical analysis for file \"{}\" to file \"{}\"...".format(filename_input,
-                                                                                              file_output.name))
-            while True:
-                token = lexer.token()
-                if not token:
-                    break
-                print(token, file=file_output)
+            print("EBNF: performing lexical analysis for file "
+                  "\"{}\" to file \"{}\"...".format(filename_input, file_output.name))
+            for lexer_input_data in filein.readlines():
+                lexer.input(lexer_input_data)
+                while True:
+                    token = lexer.token()
+                    if not token:
+                        break
+                    print(token, file=file_output)
 
 
 if __name__ == "__main__":

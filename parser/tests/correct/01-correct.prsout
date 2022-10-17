@@ -1,0 +1,13 @@
+EBNF Grammar: Syntactic analysis completed
+List of symbol characters: {'a', 'us', 'ab', 'b', 'o'}
+List of non-terminal characters: {'A', '__NT4', '__NT3', 'NT3', '__NT1', '__NT0', 'B', '__NT2'}
+Start non-terminal character: NT3
+Rules:
+A = "a";
+__NT4 = "a" | "us";
+__NT3 = EPS | __NT3 + __NT2;
+NT3 = __NT1 + "ab" + __NT3 + "b" + __NT4 + EPS;
+__NT1 = EPS | __NT0;
+__NT0 = "a";
+B = "b";
+__NT2 = "o";
